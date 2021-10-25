@@ -1,3 +1,3 @@
-class Routes{
-  static const MARCH = '/';
+class Routes {
+  static const INITIAL = '/';
 }

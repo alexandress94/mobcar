@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mobicar/futures/data/models/march_model.dart';
-import 'package:mobicar/futures/presentation/modules/march/initial_controller.dart';
+
+import '../controllers/march_controller.dart';
 
 class SuccessWidget extends StatelessWidget {
   final List<MarchModel> state;
-  final InitialController controller;
+  final MarchController controller;
   const SuccessWidget({Key? key, required this.state, required this.controller})
       : super(key: key);
 
