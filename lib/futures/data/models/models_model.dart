@@ -1,28 +1,22 @@
 import 'dart:convert';
 
-import 'package:mobicar/futures/domain/entities/models_entity.dart';
+import 'package:mobicar/futures/domain/entities/model_entity.dart';
 
-class ModelsModel extends ModelsEntity{
-    ModelsModel({
-    required String name,
-    required String codigo
-  }) : super(name: name, codigo: codigo);
+class ModelModel extends ModelEntity {
+  ModelModel({required String name, required String code})
+      : super(name: name, code: code);
 
-  factory ModelsModel.fromJson(Map<String, dynamic> json) {
-
-    return ModelsModel(
-      name:   json['nome'],
-      codigo: json['codigo']      
+  factory ModelModel.fromJson(Map<String, dynamic> json) {
+    return ModelModel(
+      name: json['nome'],
+      code: json['codigo'].toString(),
     );
   }
 
-  factory ModelsModel.fromMap(String source) => ModelsModel.fromJson(json.decode(source));
+  factory ModelModel.fromMap(String source) =>
+      ModelModel.fromJson(json.decode(source));
 
   Map<String, dynamic> toJson() {
-    return {
-      'nome': name,
-      'codigo': codigo      
-    };
+    return {'nome': name, 'codigo': code};
   }
-
 }

@@ -1,6 +1,6 @@
 class MarchEntity {
   String? name;
-  String? codigo;
+  String? code;
 
-  MarchEntity({required this.name, required this.codigo});
+  MarchEntity({required this.name, required this.code});
 }

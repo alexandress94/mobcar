@@ -2,15 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mobicar/futures/data/models/march_model.dart';
 import 'package:mobicar/futures/data/models/models_model.dart';
-import 'package:mobicar/futures/presentation/modules/initial/controllers/models_controller.dart';
+import 'package:mobicar/futures/data/models/year_model.dart';
+import 'package:mobicar/futures/presentation/modules/initial/controllers/model_controller.dart';
+import 'package:mobicar/futures/presentation/modules/initial/controllers/price_controller.dart';
+import 'package:mobicar/futures/presentation/modules/initial/controllers/year_controller.dart';
 import 'controllers/march_controller.dart';
-import 'widgets/success_widget.dart';
 
 class InitialPages extends StatelessWidget {
   InitialPages({Key? key}) : super(key: key);
 
   final _marchController = Get.find<MarchController>();
-  final _modelsController = Get.find<ModelsController>();
+  final _modelsController = Get.find<ModelController>();
+  final _yearController = Get.find<YearController>();
+  final _textController = Get.find<PriceController>();
 
   void showAlertDialog(BuildContext context) {
     showDialog(
@@ -29,29 +33,49 @@ class InitialPages extends StatelessWidget {
                     items: _comboBrands(),
                     onChanged: (MarchModel? value) {
                       _.setMarch = value!.name!;
-                      _modelsController.codigoMarch.value = value.codigo!;
+                      _modelsController.getAll(value.code!);
+                      _yearController.selectedCode.value = value.code!;
                     },
                   );
                 },
               ),
-              GetBuilder<MarchController>(
-                  id: 'march',
-                  builder: (_) {
-                    if (_.brands.isNotEmpty &&
-                        _modelsController.codigoMarch.toString() != "") {
-                      print(_modelsController.codigoMarch.toString());
-                      _modelsController
-                          .getAll(_modelsController.codigoMarch.toString());
-                    }
-                    return DropdownButtonFormField(
-                      isExpanded: true,
-                      hint: const Text('Selecione um modelo'),
-                      items: _comboModels(),
-                      onChanged: (ModelsModel? value) {
-                        _modelsController.setModel = value!.name!;
-                      },
-                    );
-                  }),
+              GetBuilder<ModelController>(
+                id: 'model',
+                builder: (_) {
+                  return DropdownButtonFormField(
+                    isExpanded: true,
+                    hint: const Text('Selecione um modelo'),
+                    items: _comboModels(),
+                    onChanged: (ModelModel? value) {
+                      _.setModel = value!.name!;
+                      _yearController.getAll(
+                          _yearController.selectedCode.toString(), value.code!);
+                    },
+                  );
+                },
+              ),
+              GetBuilder<YearController>(
+                id: 'year',
+                builder: (_) {
+                  return DropdownButtonFormField(
+                    isExpanded: true,
+                    hint: const Text('Selecione o ano'),
+                    items: _comboYears(),
+                    onChanged: (YearModel? value) {
+                      _.setYear = value!.name!;
+                    },
+                  );
+                },
+              ),
+              // TextFormField(
+              //   controller: _textController.priceTextController,
+              //   expands: true,
+              //   decoration: const InputDecoration(
+              //     hintText: 'Valor: (R\$)',
+              //   ),
+              //   textInputAction: TextInputAction.next,
+              //   readOnly: true,
+              // ),
               Row(
                 children: [
                   ElevatedButton(
@@ -76,6 +100,7 @@ class InitialPages extends StatelessWidget {
         child: ElevatedButton(
           onPressed: () {
             showAlertDialog(context);
+            _marchController.getAll();
           },
           child: Text('clique aqui'),
         ),
@@ -144,10 +169,21 @@ class InitialPages extends StatelessWidget {
         .toList();
   }
 
-  List<DropdownMenuItem<ModelsModel>> _comboModels() {
+  List<DropdownMenuItem<ModelModel>> _comboModels() {
     return _modelsController.models
         .map(
-          (ModelsModel value) => DropdownMenuItem<ModelsModel>(
+          (ModelModel value) => DropdownMenuItem<ModelModel>(
+            child: Text('${value.name}'),
+            value: value,
+          ),
+        )
+        .toList();
+  }
+
+  List<DropdownMenuItem<YearModel>> _comboYears() {
+    return _yearController.years
+        .map(
+          (YearModel value) => DropdownMenuItem<YearModel>(
             child: Text('${value.name}'),
             value: value,
           ),

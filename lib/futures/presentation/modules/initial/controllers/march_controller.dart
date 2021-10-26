@@ -12,16 +12,10 @@ class MarchController extends GetxController {
 
   set setMarch(String name ){
     _marchSelected = name;
-    update(['march']);
+    update(['march']);    
   }
 
   get getMarch => _marchSelected;
-
-  @override
-  void onInit() {
-    super.onInit();
-    getAll();
-  }
 
   Future<void> getAll() async {
     try {
@@ -29,5 +23,8 @@ class MarchController extends GetxController {
     } catch (error) {
       throw ServerFailure('Erro durante carregamento: $error');
     }
+
+    update(['march']);
   }
+
 }

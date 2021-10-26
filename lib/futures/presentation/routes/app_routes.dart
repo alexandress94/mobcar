@@ -1,6 +1,8 @@
 import 'package:get/get.dart';
 import 'package:mobicar/futures/presentation/modules/initial/bindings/march_binding.dart';
 import 'package:mobicar/futures/presentation/modules/initial/bindings/models_binding.dart';
+import 'package:mobicar/futures/presentation/modules/initial/bindings/price_binding.dart';
+import 'package:mobicar/futures/presentation/modules/initial/bindings/year_binding.dart';
 import 'package:mobicar/futures/presentation/modules/initial/initial_page.dart';
 import 'package:mobicar/futures/presentation/routes/routes.dart';
 
@@ -12,6 +14,8 @@ abstract class AppPages {
       bindings: [
         MarchBinding(),
         ModelsBinding(),
+        YearBinding(),
+        PriceBinding(),
       ],
     ),
   ];
