@@ -63,7 +63,7 @@ class InitialPages extends StatelessWidget {
                     items: _comboYears(),
                     onChanged: (YearModel? value) {
                       _.setYear = value!.name!;
-                      // _priceController.getPrice(marchCode, modelCode, yearCode);
+                      //_priceController.getPrice(marchCode, modelCode, yearCode);
                     },
                   );
                 },
@@ -83,7 +83,7 @@ class InitialPages extends StatelessWidget {
                     onPressed: () {
                       Get.back();
                     },
-                    child: Text('Voltar'),
+                    child: const Text('Voltar'),
                   ),
                 ],
               )

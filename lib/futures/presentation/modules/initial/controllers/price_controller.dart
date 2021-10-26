@@ -9,15 +9,6 @@ class PriceController extends GetxController {
   PriceController({required this.repository});
 
   late PriceModel price;
-  RxString _modelCode = "".obs;
-  RxString selectedCode = "".obs;
-
-  set setYear(String value) {
-    _modelCode.value = value;
-    update(['price']);
-  }
-
-  get getYear => _modelCode;
 
   Future<void> getPrice(
       String marchCode, String modelCode, String yearCode) async {
