@@ -5,14 +5,21 @@ import 'package:mobicar/futures/domain/repositories/march_repository.dart';
 
 class MarchController extends GetxController {
   final MarchRepository repository;
+
   MarchController({required this.repository});
 
   String _marchSelected = "";
   RxList<MarchModel> brands = <MarchModel>[].obs;
 
-  set setMarch(String name ){
+  @override
+  void onInit() {
+    super.onInit();
+    getAll();
+  }
+
+  set setMarch(String name) {
     _marchSelected = name;
-    update(['march']);    
+    update(['march']);
   }
 
   get getMarch => _marchSelected;
@@ -26,5 +33,4 @@ class MarchController extends GetxController {
 
     update(['march']);
   }
-
 }

@@ -8,15 +8,14 @@ class YearController extends GetxController {
   YearController({required this.repository});
 
   RxList<YearModel> years = <YearModel>[].obs;
-  RxString _modelCode = "".obs;
-  RxString selectedCode = "".obs;
+  RxString _selecteYear = "".obs;
 
   set setYear(String value) {
-    selectedCode.value = value;
+    _selecteYear.value = value;
     update(['year']);
   }
 
-  get getYear => _modelCode;
+  get getYear => _selecteYear;
 
   Future<void> getAll(String marchCode, String modelCode) async {
     try {

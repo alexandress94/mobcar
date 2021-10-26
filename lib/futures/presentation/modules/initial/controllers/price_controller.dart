@@ -19,7 +19,7 @@ class PriceController extends GetxController {
 
   get getYear => _modelCode;
 
-  Future<void> getAll(
+  Future<void> getPrice(
       String marchCode, String modelCode, String yearCode) async {
     try {
       price = await repository.getPrice(marchCode, modelCode, yearCode);
