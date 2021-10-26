@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mobicar/futures/data/models/march_model.dart';
+import 'package:mobicar/futures/data/models/models_model.dart';
 import 'package:mobicar/futures/presentation/modules/initial/controllers/models_controller.dart';
 import 'controllers/march_controller.dart';
 import 'widgets/success_widget.dart';
@@ -14,44 +16,54 @@ class InitialPages extends StatelessWidget {
     showDialog(
       context: context,
       builder: (_) {
-        return Obx(
-          () {
-            return AlertDialog(
-              content: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  DropdownButton<String>(
-                    value: _marchController.selected.toString(),
+        return AlertDialog(
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              GetBuilder<MarchController>(
+                id: 'march',
+                builder: (_) {
+                  return DropdownButtonFormField(
+                    isExpanded: true,
+                    hint: const Text('Selecione uma marca'),
                     items: _comboBrands(),
-                    onChanged: (String? value) {
-                      _marchController.selected.value = value!;
-                      if (_marchController.brands[0].name == value) {
-                        _modelsController
-                            .getAll(_marchController.brands[0].codigo!);
-                      }
+                    onChanged: (MarchModel? value) {
+                      _.setMarch = value!.name!;
+                      _modelsController.codigoMarch.value = value.codigo!;
                     },
-                  ),
-                  DropdownButton<String>(
-                    value: _modelsController.selected.toString(),
-                    items: _comboModels(),
-                    onChanged: (String? value) {
-                      _modelsController.selected.value = value!;
-                    },
-                  ),
-                  Row(
-                    children: [
-                      ElevatedButton(
-                        onPressed: () {
-                          Get.back();
-                        },
-                        child: Text('Voltar'),
-                      ),
-                    ],
-                  )
-                ],
+                  );
+                },
               ),
-            );
-          },
+              GetBuilder<MarchController>(
+                  id: 'march',
+                  builder: (_) {
+                    if (_.brands.isNotEmpty &&
+                        _modelsController.codigoMarch.toString() != "") {
+                      print(_modelsController.codigoMarch.toString());
+                      _modelsController
+                          .getAll(_modelsController.codigoMarch.toString());
+                    }
+                    return DropdownButtonFormField(
+                      isExpanded: true,
+                      hint: const Text('Selecione um modelo'),
+                      items: _comboModels(),
+                      onChanged: (ModelsModel? value) {
+                        _modelsController.setModel = value!.name!;
+                      },
+                    );
+                  }),
+              Row(
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      Get.back();
+                    },
+                    child: Text('Voltar'),
+                  ),
+                ],
+              )
+            ],
+          ),
         );
       },
     );
@@ -70,6 +82,23 @@ class InitialPages extends StatelessWidget {
       ),
     );
   }
+
+// DropdownButton<String>(
+
+//                     value: _marchController.selected.toString(),
+//                     items: _comboBrands(),
+//                     onChanged: (String? value) {
+//                       _marchController.selected.value = value!;
+//                     },
+//                   ),
+//                   DropdownButton<String>(
+//                     value: _modelsController.brandSelected.toString(),
+//                     items: _comboModels(),
+//                     onChanged: (String? value) {
+//                       _modelsController.brandSelected.value = value!;
+//                       if
+//                     },
+//                   )
 
   // Obx(
   //           () {
@@ -104,23 +133,23 @@ class InitialPages extends StatelessWidget {
   //   return listItems.toList();
   // }
 
-  List<DropdownMenuItem<String>> _comboBrands() {
+  List<DropdownMenuItem<MarchModel>> _comboBrands() {
     return _marchController.brands
         .map(
-          (value) => DropdownMenuItem<String>(
+          (MarchModel value) => DropdownMenuItem<MarchModel>(
             child: Text('${value.name}'),
-            value: value.name,
+            value: value,
           ),
         )
         .toList();
   }
 
-  List<DropdownMenuItem<String>> _comboModels() {
+  List<DropdownMenuItem<ModelsModel>> _comboModels() {
     return _modelsController.models
         .map(
-          (value) => DropdownMenuItem<String>(
+          (ModelsModel value) => DropdownMenuItem<ModelsModel>(
             child: Text('${value.name}'),
-            value: value.name,
+            value: value,
           ),
         )
         .toList();

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:mobicar/futures/domain/entities/models_entity.dart';
 
 class ModelsModel extends ModelsEntity{
@@ -14,10 +16,13 @@ class ModelsModel extends ModelsEntity{
     );
   }
 
+  factory ModelsModel.fromMap(String source) => ModelsModel.fromJson(json.decode(source));
+
   Map<String, dynamic> toJson() {
     return {
       'nome': name,
       'codigo': codigo      
     };
   }
+
 }

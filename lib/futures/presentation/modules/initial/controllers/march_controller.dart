@@ -7,8 +7,15 @@ class MarchController extends GetxController {
   final MarchRepository repository;
   MarchController({required this.repository});
 
-  RxString selected = "Acura".obs;
+  String _marchSelected = "";
   RxList<MarchModel> brands = <MarchModel>[].obs;
+
+  set setMarch(String name ){
+    _marchSelected = name;
+    update(['march']);
+  }
+
+  get getMarch => _marchSelected;
 
   @override
   void onInit() {

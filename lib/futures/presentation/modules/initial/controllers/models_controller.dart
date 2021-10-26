@@ -7,8 +7,17 @@ class ModelsController extends GetxController {
   final ModelsRepository repository;
   ModelsController({required this.repository});
 
-  RxString selected = "".obs;
+  RxString codigoMarch = "".obs;
   RxList<ModelsModel> models = <ModelsModel>[].obs;
+  String _modelSelected = "";
+
+  set setModel(String name){
+    _modelSelected = name;
+    update(['model']);
+  }
+
+  get getModel => _modelSelected;
+
 
   // @override
   // void onInit() {
