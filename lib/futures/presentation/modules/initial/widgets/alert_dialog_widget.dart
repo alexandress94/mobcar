@@ -97,7 +97,8 @@ class AlertDialogWidget extends StatelessWidget {
               _actionButton(
                 title: 'Confirmar',
                 onPressed: () {
-                  Get.off(Routes.INITIAL);
+                  _favoriteController.insert();
+                  Get.back();
                 },
               ),
             ],

@@ -73,6 +73,7 @@ class FavoriteDatabase {
   Future<int> insert(FavoriteModel model) async {
     Database database = await instance.database;
     var result = await database.insert(_table, model.toMap());
+    print('CHAMOU INSERT');
     return result;
   }
 
