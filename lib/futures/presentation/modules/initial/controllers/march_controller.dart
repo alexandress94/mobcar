@@ -8,7 +8,8 @@ class MarchController extends GetxController {
 
   MarchController({required this.repository});
 
-  String _marchSelected = "";
+  String _selectedNameMach = "";
+  String _selectedCodeMach = "";
   RxList<MarchModel> brands = <MarchModel>[].obs;
 
   @override
@@ -17,12 +18,19 @@ class MarchController extends GetxController {
     getAll();
   }
 
-  set setMarch(String name) {
-    _marchSelected = name;
+  set setNameMarch(String name) {
+    _selectedNameMach = name;
     update(['march']);
   }
 
-  get getMarch => _marchSelected;
+  get getNameMarch => _selectedNameMach;
+
+  set setCodeMarch(String code) {
+    _selectedCodeMach = code;
+    update(['march']);
+  }
+
+  get getCodeMarch => _selectedCodeMach;
 
   Future<void> getAll() async {
     try {

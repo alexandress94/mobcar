@@ -12,6 +12,7 @@ class PriceApiProvider {
 
     try {
       final response = await http.get(url);
+
       if (response.statusCode == 200) {
         final Map<String, dynamic> data = jsonDecode(response.body);
         return PriceModel.fromJson(data);

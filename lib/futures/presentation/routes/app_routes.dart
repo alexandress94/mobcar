@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:mobicar/futures/presentation/modules/initial/bindings/favorite_biding.dart';
 import 'package:mobicar/futures/presentation/modules/initial/bindings/march_binding.dart';
 import 'package:mobicar/futures/presentation/modules/initial/bindings/models_binding.dart';
 import 'package:mobicar/futures/presentation/modules/initial/bindings/price_binding.dart';
@@ -16,6 +17,7 @@ abstract class AppPages {
         ModelsBinding(),
         YearBinding(),
         PriceBinding(),
+        FavoriteBinding(),
       ],
     ),
   ];

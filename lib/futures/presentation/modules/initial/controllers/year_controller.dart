@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:mobicar/core/error/failure.dart';
 import 'package:mobicar/futures/data/models/year_model.dart';
 import 'package:mobicar/futures/domain/repositories/year_repository.dart';
 
@@ -8,20 +9,28 @@ class YearController extends GetxController {
   YearController({required this.repository});
 
   RxList<YearModel> years = <YearModel>[].obs;
-  RxString _selecteYear = "".obs;
+  String _selectedNameYear = "";
+  String _selectedCodeYear = "";
 
-  set setYear(String value) {
-    _selecteYear.value = value;
+  set setNameYear(String name) {
+    _selectedNameYear = name;
     update(['year']);
   }
 
-  get getYear => _selecteYear;
+  get getNameYear => _selectedNameYear;
+
+  set setCodeYear(String code) {
+    _selectedCodeYear = code;
+    update(['year']);
+  }
+
+  get getCodeYear => _selectedCodeYear;
 
   Future<void> getAll(String marchCode, String modelCode) async {
     try {
       years.value = await repository.getAll(marchCode, modelCode);
     } catch (error) {
-      throw Exception('Erro durante carregamento: $error');
+      throw ServerFailure('Erro durante carregamento: $error');
     }
     update(['year']);
   }
