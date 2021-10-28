@@ -53,10 +53,9 @@ class SuccessWidget extends StatelessWidget {
           title: Column(
             children: [
               Row(
-                children: [
-                  Icon(Icons.car_repair, size: 50),
-                  const SizedBox(width: 10),
-                  const Text('Atualizar veículo'),
+                children: const [
+                  SizedBox(width: 10),
+                  Text('Atualizar veículo'),
                 ],
               ),
               const Divider(height: 1, thickness: 1),
@@ -71,7 +70,7 @@ class SuccessWidget extends StatelessWidget {
                     controller: _favoriteController.marchTextController,
                     textInputAction: TextInputAction.done,
                     keyboardType: TextInputType.text,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: 'Marca',
                       icon: Icon(Icons.create),
                     ),
@@ -87,7 +86,7 @@ class SuccessWidget extends StatelessWidget {
                     controller: _favoriteController.modelTextController,
                     textInputAction: TextInputAction.done,
                     keyboardType: TextInputType.text,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: 'Modelo',
                       icon: Icon(Icons.create),
                     ),
@@ -101,8 +100,9 @@ class SuccessWidget extends StatelessWidget {
                   TextFormField(
                     controller: _favoriteController.priceTextController,
                     textInputAction: TextInputAction.done,
-                    keyboardType: TextInputType.text,
-                    decoration: InputDecoration(
+                    keyboardType:
+                        const TextInputType.numberWithOptions(decimal: true),
+                    decoration: const InputDecoration(
                       labelText: 'Valor',
                       icon: Icon(Icons.attach_money),
                     ),
@@ -130,7 +130,7 @@ class SuccessWidget extends StatelessWidget {
                             Get.back();
                           }
                         },
-                        icon: Icon(Icons.save),
+                        icon: const Icon(Icons.save),
                         label: const Text('Salvar'),
                       ),
                     ],
@@ -146,59 +146,61 @@ class SuccessWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 20),
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(30),
-          topRight: Radius.circular(30),
-        ),
-      ),
-      child: Obx(
-        () => ClipRRect(
-          borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(30),
-            topRight: Radius.circular(30),
-          ),
-          child: ListView.builder(
-            itemCount: state.length,
-            itemBuilder: (BuildContext _, int index) {
-              FavoriteModel favorite = state[index];
-              return Card(
-                key: ValueKey(favorite.id),
-                child: ListTile(
-                  leading: CircleAvatar(
-                    child: Text(
-                      '${favorite.march}'.substring(0, 1).toUpperCase(),
-                    ),
-                  ),
-                  title: Text('${favorite.march}'),
-                  subtitle: Text('${favorite.price}'),
-                  trailing: IconButton(
-                    onPressed: () {
-                      showMessageAlertDialog(
-                          context: context, id: favorite.id!);
-                      // _favoriteController.delete(favorite.id!);
-                    },
-                    icon: Icon(Icons.delete),
-                  ),
-                  onTap: () {
-                    _favoriteController.selectedId = favorite.id!;
-                    _favoriteController.marchTextController.text =
-                        favorite.march!;
-                    _favoriteController.modelTextController.text =
-                        favorite.model!;
-                    _favoriteController.priceTextController.text =
-                        favorite.price!;
-            
-                    showAlertDialog(context: context);
-                  },
+    return Obx(
+      () => ListView.builder(
+        itemCount: state.length,
+        itemBuilder: (BuildContext _, int index) {
+          FavoriteModel favorite = state[index];
+          return Card(
+            key: ValueKey(favorite.id),
+            child: ListTile(
+              leading: CircleAvatar(
+                child: Text(
+                  '${favorite.march}'.substring(0, 1).toUpperCase(),
                 ),
-              );
-            },
-          ),
-        ),
+              ),
+              title: Text('${favorite.march}'),
+              subtitle: Text('${favorite.price}'),
+              trailing: PopupMenuButton(
+                itemBuilder: (BuildContext context) {
+                  return [
+                    PopupMenuItem(
+                      child: TextButton(
+                        onPressed: () {
+                          _favoriteController.selectedId = favorite.id!;
+                          _favoriteController.marchTextController.text =
+                              favorite.march!;
+                          _favoriteController.modelTextController.text =
+                              favorite.model!;
+                          _favoriteController.priceTextController.text =
+                              favorite.price!;
+
+                          showAlertDialog(context: context);
+                        },
+                        child: const Text(
+                          'Editar',
+                          style: TextStyle(color: Colors.black),
+                        ),
+                      ),
+                    ),
+                    PopupMenuItem(
+                      child: TextButton(
+                        onPressed: () {
+                          showMessageAlertDialog(
+                              context: context, id: favorite.id!);
+                        },
+                        child: const Text(
+                          'Excluir',
+                          style: TextStyle(color: Colors.black),
+                        ),
+                      ),
+                    ),
+                  ];
+                },
+              ),
+            ),
+          );
+        },
       ),
     );
   }

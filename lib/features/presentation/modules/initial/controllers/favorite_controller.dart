@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mobicar/core/error/failure.dart';
@@ -16,8 +19,11 @@ class FavoriteController extends GetxController
   final _modelsController = Get.find<ModelController>();
   final _yearController = Get.find<YearController>();
   final _priceController = Get.find<PriceController>();
+  
 
   int selectedId = 0;
+
+  late StreamSubscription subscription;
   final marchTextController = TextEditingController();
   final modelTextController = TextEditingController();
   final priceTextController = TextEditingController();
@@ -29,6 +35,12 @@ class FavoriteController extends GetxController
   void onInit() {
     super.onInit();
     getAll();
+  }
+
+  @override
+  void onClose() {
+    subscription.cancel();
+    super.onClose();
   }
 
   Future<void> getAll() async {
@@ -80,7 +92,6 @@ class FavoriteController extends GetxController
   }
 
   Future<void> delete(int id) async {
-    
     await repository.delete(id);
     getAll();
   }

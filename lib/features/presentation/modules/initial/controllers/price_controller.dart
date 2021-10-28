@@ -4,12 +4,13 @@ import 'package:mobicar/core/error/failure.dart';
 import 'package:mobicar/features/data/models/price_model.dart';
 import 'package:mobicar/features/domain/repositories/price_repository.dart';
 
-class PriceController extends GetxController {
+class PriceController extends GetxController with StateMixin {
   final priceTextController = TextEditingController();
   final PriceRepository repository;
   PriceController({required this.repository});
 
   late PriceModel price;
+  RxString loadPrice = "".obs;
 
   Future<void> getPrice(
       String marchCode, String modelCode, String yearCode) async {

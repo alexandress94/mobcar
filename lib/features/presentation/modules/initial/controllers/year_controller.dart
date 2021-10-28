@@ -3,7 +3,7 @@ import 'package:mobicar/core/error/failure.dart';
 import 'package:mobicar/features/data/models/year_model.dart';
 import 'package:mobicar/features/domain/repositories/year_repository.dart';
 
-class YearController extends GetxController {
+class YearController extends GetxController with StateMixin<List<YearModel>> {
   final YearRepository repository;
 
   YearController({required this.repository});
@@ -27,9 +27,15 @@ class YearController extends GetxController {
   get getCodeYear => _selectedCodeYear;
 
   Future<void> getAll(String marchCode, String modelCode) async {
+    change([], status: RxStatus.loading());
     try {
       years.value = await repository.getAll(marchCode, modelCode);
+
+      years.isEmpty
+          ? change([], status: RxStatus.empty())
+          : change(years, status: RxStatus.success());
     } catch (error) {
+      change(years, status: RxStatus.error());
       throw ServerFailure('Erro durante carregamento: $error');
     }
     update(['year']);

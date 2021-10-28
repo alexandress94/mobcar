@@ -9,25 +9,24 @@ import 'package:mobicar/features/presentation/modules/initial/controllers/model_
 import 'package:mobicar/features/presentation/modules/initial/controllers/price_controller.dart';
 import 'package:mobicar/features/presentation/modules/initial/controllers/year_controller.dart';
 
-class AlertDialogWidget extends StatelessWidget {
-  AlertDialogWidget({Key? key}) : super(key: key);
+class FormWidget extends StatelessWidget {
+  FormWidget({Key? key}) : super(key: key);
 
   final _marchController = Get.find<MarchController>();
   final _modelsController = Get.find<ModelController>();
   final _yearController = Get.find<YearController>();
   final _priceController = Get.find<PriceController>();
   final _favoriteController = Get.find<FavoriteController>();
+  final _keyForm = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
-    String _price = "";
     return AlertDialog(
       title: Column(
         children: [
           Row(
             children: const [
-              Icon(Icons.car_repair),
-              Text('Cadastrar um novo veículo'),
+              Text('Cadastre seu veículo favorito'),
             ],
           ),
           const SizedBox(height: 10),
@@ -79,8 +78,7 @@ class AlertDialogWidget extends StatelessWidget {
                 hint: const Text('Selecione o ano'),
                 items: _comboYears(),
                 onChanged: (YearModel? value) {
-                  _price = value!.name!;
-                  _.setNameYear = value.name!;
+                  _.setNameYear = value!.name!;
                   _priceController.getPrice(
                     _marchController.getCodeMarch,
                     _modelsController.getCodeModel,
@@ -90,11 +88,20 @@ class AlertDialogWidget extends StatelessWidget {
               );
             },
           ),
-          TextFormField(
-            readOnly: true,
-            controller: _priceController.priceTextController,
-            decoration: const InputDecoration(
-              hintText: 'Valor: (R\$)',
+          Form(
+            key: _keyForm,
+            child: TextFormField(
+              readOnly: true,
+              controller: _priceController.priceTextController,
+              decoration: const InputDecoration(
+                hintText: 'Valor: (R\$)',
+              ),
+              validator: (value) {
+                if (value!.isEmpty) {
+                  return 'Este campo não pode ser vazio.';
+                }
+                return null;
+              },
             ),
           ),
           const SizedBox(height: 10),
@@ -103,22 +110,23 @@ class AlertDialogWidget extends StatelessWidget {
             children: [
               TextButton(
                 onPressed: () {
+                  _priceController.priceTextController.clear();
                   Get.back();
                 },
                 child: const Text('Voltar'),
               ),
               ElevatedButton.icon(
                 icon: const Icon(Icons.check),
-                onPressed: _price.isEmpty
-                    ? null
-                    : () {
-                        _favoriteController.insert();
-                        _priceController.priceTextController.clear();
-                        _price = "";
-                        Get.back();
-                      },
+                onPressed: () {
+                  if (_keyForm.currentState!.validate()) {
+                    _favoriteController.insert();
+                    _priceController.priceTextController.clear();
+
+                    Get.back();
+                  }
+                },
                 label: const Text('Confirmar'),
-              )
+              ),
             ],
           )
         ],

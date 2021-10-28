@@ -1,3 +1,4 @@
 class Routes {
-  static const INITIAL = '/';
+  static const SPLASH = '/';
+  static const INITIAL = '/initial-page';
 }

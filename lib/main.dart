@@ -21,7 +21,8 @@ void main() {
     GetMaterialApp(
       debugShowCheckedModeBanner: false,
       getPages: AppPages.routes,
-      initialRoute: Routes.INITIAL,
+      initialRoute: Routes.SPLASH,
+      
     ),
   );
 }
