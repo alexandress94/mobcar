@@ -4,7 +4,7 @@ Desenvolvimento de uma aplicação mobile para obter requisições da internet d
 
 ## Sobre o projeto
 
-- Nesta aplicação foi implementado os fundamentos da arquitetura limpa (clean architecture) e S.O.L.I.D para organização das funcionalidades;
+- Nesta aplicação foi implementado os fundamentos da arquitetura limpa (clean architecture) e S.O.L.I.D para organização das funcionalidades, utilizado gerenciamento de estado com GetX, utilizado HTTP para obter requisição;
 
 ## O que tem de novo
 - Introduzido uma tela de carregamento inicial ao abrir o aplicativo (splash);
