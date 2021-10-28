@@ -20,7 +20,20 @@ class AlertDialogWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String _price = "";
     return AlertDialog(
+      title: Column(
+        children: [
+          Row(
+            children: const [
+              Icon(Icons.car_repair),
+              Text('Cadastrar um novo veículo'),
+            ],
+          ),
+          const SizedBox(height: 10),
+          const Divider(height: 1, thickness: 1),
+        ],
+      ),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -66,7 +79,8 @@ class AlertDialogWidget extends StatelessWidget {
                 hint: const Text('Selecione o ano'),
                 items: _comboYears(),
                 onChanged: (YearModel? value) {
-                  _.setNameYear = value!.name!;
+                  _price = value!.name!;
+                  _.setNameYear = value.name!;
                   _priceController.getPrice(
                     _marchController.getCodeMarch,
                     _modelsController.getCodeModel,
@@ -94,12 +108,15 @@ class AlertDialogWidget extends StatelessWidget {
                 child: const Text('Voltar'),
               ),
               ElevatedButton.icon(
-                icon: Icon(Icons.check),
-                onPressed: () {
-                  _favoriteController.insert();
-                  _priceController.priceTextController.clear();
-                  Get.back();
-                },
+                icon: const Icon(Icons.check),
+                onPressed: _price.isEmpty
+                    ? null
+                    : () {
+                        _favoriteController.insert();
+                        _priceController.priceTextController.clear();
+                        _price = "";
+                        Get.back();
+                      },
                 label: const Text('Confirmar'),
               )
             ],

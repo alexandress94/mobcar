@@ -146,39 +146,59 @@ class SuccessWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(
-      () => ListView.builder(
-        itemCount: state.length,
-        itemBuilder: (BuildContext _, int index) {
-          FavoriteModel favorite = state[index];
-          return Card(
-            key: ValueKey(favorite.id),
-            child: ListTile(
-              leading: CircleAvatar(
-                child: Text(
-                  '${favorite.march}'.substring(0, 1).toUpperCase(),
+    return Container(
+      margin: const EdgeInsets.only(bottom: 20),
+      decoration: const BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(30),
+          topRight: Radius.circular(30),
+        ),
+      ),
+      child: Obx(
+        () => ClipRRect(
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(30),
+            topRight: Radius.circular(30),
+          ),
+          child: ListView.builder(
+            itemCount: state.length,
+            itemBuilder: (BuildContext _, int index) {
+              FavoriteModel favorite = state[index];
+              return Card(
+                key: ValueKey(favorite.id),
+                child: ListTile(
+                  leading: CircleAvatar(
+                    child: Text(
+                      '${favorite.march}'.substring(0, 1).toUpperCase(),
+                    ),
+                  ),
+                  title: Text('${favorite.march}'),
+                  subtitle: Text('${favorite.price}'),
+                  trailing: IconButton(
+                    onPressed: () {
+                      showMessageAlertDialog(
+                          context: context, id: favorite.id!);
+                      // _favoriteController.delete(favorite.id!);
+                    },
+                    icon: Icon(Icons.delete),
+                  ),
+                  onTap: () {
+                    _favoriteController.selectedId = favorite.id!;
+                    _favoriteController.marchTextController.text =
+                        favorite.march!;
+                    _favoriteController.modelTextController.text =
+                        favorite.model!;
+                    _favoriteController.priceTextController.text =
+                        favorite.price!;
+            
+                    showAlertDialog(context: context);
+                  },
                 ),
-              ),
-              title: Text('${favorite.march}'),
-              subtitle: Text('${favorite.price}'),
-              trailing: IconButton(
-                onPressed: () {
-                  showMessageAlertDialog(context: context, id: favorite.id!);
-                  // _favoriteController.delete(favorite.id!);
-                },
-                icon: Icon(Icons.delete),
-              ),
-              onTap: () {
-                _favoriteController.selectedId = favorite.id!;
-                _favoriteController.marchTextController.text = favorite.march!;
-                _favoriteController.modelTextController.text = favorite.model!;
-                _favoriteController.priceTextController.text = favorite.price!;
-
-                showAlertDialog(context: context);
-              },
-            ),
-          );
-        },
+              );
+            },
+          ),
+        ),
       ),
     );
   }

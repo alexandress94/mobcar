@@ -4,6 +4,8 @@ import 'package:mobicar/features/presentation/modules/initial/controllers/favori
 import 'package:mobicar/features/presentation/modules/initial/widgets/success_widget.dart';
 import 'widgets/alert_dialog_widget.dart';
 import 'widgets/on_empty_widget.dart';
+import 'widgets/on_error_widget.dart';
+import 'widgets/on_loading_widget.dart';
 
 class InitialPages extends GetView<FavoriteController> {
   const InitialPages({Key? key}) : super(key: key);
@@ -20,14 +22,25 @@ class InitialPages extends GetView<FavoriteController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.blue,
       appBar: AppBar(
+        elevation: 0.0,
         title: const Text('MOBCAR'),
         actions: [
-          ElevatedButton(
+          TextButton.icon(
             onPressed: () {
               showAlertDialog(context);
             },
-            child: const Text('clique aqui'),
+            icon: const Icon(
+              Icons.add,
+              color: Colors.white,
+            ),
+            label: const Text(
+              'Novo',
+              style: TextStyle(
+                color: Colors.white,
+              ),
+            ),
           ),
         ],
       ),
@@ -35,7 +48,9 @@ class InitialPages extends GetView<FavoriteController> {
         (state) => SuccessWidget(
           state: state!,
         ),
-        onEmpty: const OnEmptyWidget(),
+        onEmpty: OnEmptyWidget(),
+        onError: (_)=> const OnErrorWidget(),
+        onLoading: OnLoadingWidget(),
       ),
     );
   }
