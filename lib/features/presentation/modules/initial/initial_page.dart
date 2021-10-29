@@ -24,8 +24,9 @@ class InitialPages extends GetView<FavoriteController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      
       appBar: AppBar(
-        elevation: 5,
+
         title: const Text('MOBCAR'),
         actions: [
           TextButton.icon(

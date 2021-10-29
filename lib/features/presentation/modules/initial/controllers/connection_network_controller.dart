@@ -43,7 +43,7 @@ class ConnectionNetWorkController extends GetxController {
         update();
         break;
       default:
-        Get.snackbar('Network Error', 'Failed to get Network Status');
+        Get.snackbar('Erro durante a conexão', 'Falha ao obter status');
         break;
     }
   }

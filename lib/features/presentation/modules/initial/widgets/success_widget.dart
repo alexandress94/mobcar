@@ -148,56 +148,47 @@ class SuccessWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(
       () => ListView.builder(
+        padding: const EdgeInsets.all(8.0),
         itemCount: state.length,
         itemBuilder: (BuildContext _, int index) {
           FavoriteModel favorite = state[index];
           return Card(
+            elevation: 5,
             key: ValueKey(favorite.id),
             child: ListTile(
+              onTap: () {
+                _favoriteController.selectedId = favorite.id!;
+                _favoriteController.marchTextController.text = favorite.march!;
+                _favoriteController.modelTextController.text = favorite.model!;
+                _favoriteController.priceTextController.text = favorite.price!;
+
+                showAlertDialog(context: context);
+              },
               leading: CircleAvatar(
                 child: Text(
                   '${favorite.march}'.substring(0, 1).toUpperCase(),
                 ),
               ),
-              title: Text('${favorite.march}'),
-              subtitle: Text('${favorite.price}'),
-              trailing: PopupMenuButton(
-                itemBuilder: (BuildContext context) {
-                  return [
-                    PopupMenuItem(
-                      child: TextButton(
-                        onPressed: () {
-                          _favoriteController.selectedId = favorite.id!;
-                          _favoriteController.marchTextController.text =
-                              favorite.march!;
-                          _favoriteController.modelTextController.text =
-                              favorite.model!;
-                          _favoriteController.priceTextController.text =
-                              favorite.price!;
-
-                          showAlertDialog(context: context);
-                        },
-                        child: const Text(
-                          'Editar',
-                          style: TextStyle(color: Colors.black),
-                        ),
-                      ),
-                    ),
-                    PopupMenuItem(
-                      child: TextButton(
-                        onPressed: () {
-                          showMessageAlertDialog(
-                              context: context, id: favorite.id!);
-                        },
-                        child: const Text(
-                          'Excluir',
-                          style: TextStyle(color: Colors.black),
-                        ),
-                      ),
-                    ),
-                  ];
-                },
+              title: Text(
+                '${favorite.march}',
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
               ),
+              subtitle: Text(
+                '${favorite.price}',
+                style: const TextStyle(color: Colors.green),
+              ),
+              trailing: IconButton(
+                onPressed: () {
+                  showMessageAlertDialog(context: context, id: favorite.id!);
+                },
+                icon: Icon(
+                  Icons.delete,
+                  color: Colors.red[200],
+                ),
+              ),
+
             ),
           );
         },

@@ -26,7 +26,9 @@ class FormWidget extends StatelessWidget {
         children: [
           Row(
             children: const [
-              Text('Cadastre seu veículo favorito'),
+              Flexible(
+                child: Text('Cadastre seu veículo favorito'),
+              ),
             ],
           ),
           const SizedBox(height: 10),
@@ -61,7 +63,7 @@ class FormWidget extends StatelessWidget {
                 onChanged: (ModelModel? value) {
                   _.setNameModel = value!.name!;
                   _.setCodeModel = value.code!;
-
+              
                   _yearController.getAll(
                     _marchController.getCodeMarch.toString(),
                     value.code!,
